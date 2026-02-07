@@ -1,0 +1,6 @@
+@LivelySheets_HostAddress = http://localhost:5292
+
+GET {{LivelySheets_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
