@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
-namespace LivelySheets.Extensions;
+namespace LivelySheets.CatalogService.API.Extensions;
 
 public static class SwaggerExtensions
 {

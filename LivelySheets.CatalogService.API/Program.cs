@@ -1,10 +1,5 @@
-using LivelySheets.Extensions;
-using LivelySheets.Options;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+using LivelySheets.CatalogService.API.Extensions;
 using System.Reflection;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 

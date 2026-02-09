@@ -1,4 +1,4 @@
-﻿namespace LivelySheets.Endpoints;
+﻿namespace LivelySheets.CatalogService.API.Endpoints;
 
 public interface IEndpoint
 {

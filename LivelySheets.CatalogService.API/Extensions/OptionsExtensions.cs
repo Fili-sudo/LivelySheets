@@ -1,6 +1,6 @@
-﻿using LivelySheets.Options;
+﻿using LivelySheets.CatalogService.API.Options;
 
-namespace LivelySheets.Extensions;
+namespace LivelySheets.CatalogService.API.Extensions;
 
 public static class OptionsExtensions
 {

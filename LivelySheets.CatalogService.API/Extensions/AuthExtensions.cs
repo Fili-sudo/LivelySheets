@@ -2,7 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace LivelySheets.Extensions;
+namespace LivelySheets.CatalogService.API.Extensions;
 
 public static class AuthExtensions
 {

@@ -1,4 +1,4 @@
-﻿namespace LivelySheets.Options;
+﻿namespace LivelySheets.CatalogService.API.Options;
 
 public class AuthOptions
 {

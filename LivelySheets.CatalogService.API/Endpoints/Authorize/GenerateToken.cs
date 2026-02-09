@@ -1,10 +1,10 @@
-﻿using LivelySheets.Options;
+﻿using LivelySheets.CatalogService.API.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
-namespace LivelySheets.Endpoints.Authorize;
+namespace LivelySheets.CatalogService.API.Endpoints.Authorize;
 
 public class GenerateToken : IEndpoint
 {

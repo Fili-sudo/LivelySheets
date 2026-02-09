@@ -1,10 +1,8 @@
-﻿using LivelySheets.Endpoints;
-using LivelySheets.Endpoints.Authorize;
+﻿using LivelySheets.CatalogService.API.Endpoints;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
-namespace LivelySheets.Extensions;
+namespace LivelySheets.CatalogService.API.Extensions;
 
 public static class EndpointExtension
 {

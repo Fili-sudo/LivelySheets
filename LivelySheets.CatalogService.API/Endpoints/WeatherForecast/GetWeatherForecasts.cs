@@ -1,5 +1,4 @@
-﻿
-namespace LivelySheets.Endpoints.WeatherForecast;
+﻿namespace LivelySheets.CatalogService.API.Endpoints.WeatherForecast;
 
 public class GetWeatherForecasts : IEndpoint
 {
