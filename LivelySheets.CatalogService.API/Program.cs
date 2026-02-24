@@ -1,4 +1,7 @@
 using LivelySheets.CatalogService.API.Extensions;
+using LivelySheets.CatalogService.Application.Utils;
+using LivelySheets.CatalogService.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +16,11 @@ builder.Services
     .ConfigureSwager()
     .ConfigureJWTAuthentication(config.GetSection(AuthExtensions.Auth))
     .RegisterOptions(config)
-    .AddEndpoints(Assembly.GetExecutingAssembly());
+    .AddEndpoints(Assembly.GetExecutingAssembly())
+    .AddDbContext<AppDbContext>(opt =>
+        opt.UseSqlServer(config.GetConnectionString("CString")))
+    .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Helper.AssemblyReference));
+
 
 var app = builder.Build();
 
