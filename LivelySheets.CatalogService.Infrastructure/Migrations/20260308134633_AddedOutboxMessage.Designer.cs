@@ -4,6 +4,7 @@ using LivelySheets.CatalogService.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LivelySheets.CatalogService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260308134633_AddedOutboxMessage")]
+    partial class AddedOutboxMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,7 +83,7 @@ namespace LivelySheets.CatalogService.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("SentOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset?>("UpdatedOn")
+                    b.Property<DateTimeOffset>("UpdatedOn")
                         .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");

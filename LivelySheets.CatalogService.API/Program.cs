@@ -1,6 +1,8 @@
 using LivelySheets.CatalogService.API.Extensions;
+using LivelySheets.CatalogService.Application.Interfaces;
 using LivelySheets.CatalogService.Application.Utils;
 using LivelySheets.CatalogService.Infrastructure;
+using LivelySheets.CatalogService.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -20,6 +22,8 @@ builder.Services
     .AddDbContext<AppDbContext>(opt =>
         opt.UseSqlServer(config.GetConnectionString("CString")))
     .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Helper.AssemblyReference));
+
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 
 var app = builder.Build();
