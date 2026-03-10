@@ -3,6 +3,7 @@ using LivelySheets.CatalogService.Application.Interfaces;
 using LivelySheets.CatalogService.Application.Utils;
 using LivelySheets.CatalogService.Infrastructure;
 using LivelySheets.CatalogService.Infrastructure.DataAccess;
+using LivelySheets.CatalogService.Infrastructure.Messaging;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -24,6 +25,7 @@ builder.Services
     .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Helper.AssemblyReference));
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IRabbitMqFacade, RabbitMqFacade>();
 
 
 var app = builder.Build();
