@@ -1,4 +1,7 @@
-﻿namespace LivelySheets.CatalogService.API.Endpoints.WeatherForecast;
+﻿using LivelySheets.CatalogService.API.HttpClients;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LivelySheets.CatalogService.API.Endpoints.WeatherForecast;
 
 public class GetWeatherForecasts : IEndpoint
 {
@@ -9,7 +12,7 @@ public class GetWeatherForecasts : IEndpoint
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        app.MapGet("/weatherforecast", () =>
+        app.MapGet("/weatherforecast", async ([FromServices] MatchupServiceClient httpClient) =>
         {
             var forecast = Enumerable.Range(1, 5).Select(index =>
                 new WeatherForecast
@@ -19,7 +22,17 @@ public class GetWeatherForecasts : IEndpoint
                     summaries[Random.Shared.Next(summaries.Length)]
                 ))
                 .ToArray();
-            return forecast;
+
+            //temporary dummy test of linking with the MatchupService.API
+            var result = await httpClient.SendOutboxMessageAsync();
+
+            return forecast.Prepend(new WeatherForecast
+            (
+                DateOnly.FromDateTime(DateTime.Now),
+                Random.Shared.Next(-20, 55),
+                result)
+            );
+
         })
         .RequireAuthorization()
         .WithName("GetWeatherForecast")

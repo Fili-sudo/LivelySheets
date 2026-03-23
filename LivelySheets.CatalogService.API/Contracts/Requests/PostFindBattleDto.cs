@@ -1,6 +1,4 @@
 ﻿using LivelySheets.CatalogService.Application.Commands;
-using System.Numerics;
-using System.Runtime.CompilerServices;
 
 namespace LivelySheets.CatalogService.API.Contracts.Requests
 {
@@ -10,7 +8,7 @@ namespace LivelySheets.CatalogService.API.Contracts.Requests
         public Guid BookId { get; set; }
 
         public static explicit operator FindBattleCommand(PostFindBattleDto p) =>
-            new ()
+            new()
             {
                 UserId = p.UserId,
                 BookId = p.BookId,

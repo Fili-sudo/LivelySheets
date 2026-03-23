@@ -1,4 +1,6 @@
+using LivelySheets.CatalogService.API.Constants;
 using LivelySheets.CatalogService.API.Extensions;
+using LivelySheets.CatalogService.API.HttpClients;
 using LivelySheets.CatalogService.Application.Interfaces;
 using LivelySheets.CatalogService.Application.Utils;
 using LivelySheets.CatalogService.Infrastructure;
@@ -26,6 +28,11 @@ builder.Services
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IRabbitMqFacade, RabbitMqFacade>();
+
+builder.Services.AddHttpClient<MatchupServiceClient>(httpClient =>
+{
+    httpClient.BaseAddress = new Uri(config[Services.MatchupServiceConfiguration] ?? "");
+});
 
 
 var app = builder.Build();
