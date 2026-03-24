@@ -22,7 +22,7 @@ namespace LivelySheets.CatalogService.API.Endpoints.Battle
                         new { messageId = result }
                     );
 
-                    return Results.Created(messageLink, body);
+                    return Results.Created(messageLink, result);
                 }
             );
         }

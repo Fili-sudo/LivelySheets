@@ -12,7 +12,7 @@ public class GetWeatherForecasts : IEndpoint
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        app.MapGet("/weatherforecast", async ([FromServices] MatchupServiceClient httpClient) =>
+        app.MapGet("/weatherforecast", () =>
         {
             var forecast = Enumerable.Range(1, 5).Select(index =>
                 new WeatherForecast
@@ -23,16 +23,7 @@ public class GetWeatherForecasts : IEndpoint
                 ))
                 .ToArray();
 
-            //temporary dummy test of linking with the MatchupService.API
-            var result = await httpClient.SendOutboxMessageAsync();
-
-            return forecast.Prepend(new WeatherForecast
-            (
-                DateOnly.FromDateTime(DateTime.Now),
-                Random.Shared.Next(-20, 55),
-                result)
-            );
-
+            return forecast;
         })
         .RequireAuthorization()
         .WithName("GetWeatherForecast")

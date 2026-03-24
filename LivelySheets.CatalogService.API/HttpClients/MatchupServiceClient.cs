@@ -1,30 +1,28 @@
-﻿using System.Text;
+﻿using LivelySheets.CatalogService.API.Contracts.ServiceModels;
+using LivelySheets.CatalogService.Application.Dtos;
+using LivelySheets.CatalogService.Application.Interfaces;
+using System.Text;
 using System.Text.Json;
 
 namespace LivelySheets.CatalogService.API.HttpClients;
 
-public class MatchupServiceClient(HttpClient httpClient)
+public class MatchupServiceClient(HttpClient httpClient) : IMatchupServiceClient
 {
     private readonly string CreateInboxMessageEndpoint = "messages/create-message";
 
     //TODO: Finish service method
-    public async Task<string> SendOutboxMessageAsync()
+    public async Task<HttpResponseMessage> SendOutboxMessageAsync(OutboxMessageDto outboxMessage)
     {
-        var employee = JsonSerializer.Serialize(new
+        var inboxMessage = new PostCreateInboxMessage
         {
-            EmpId = Guid.NewGuid(),
-            Name = "Jaimin",
-            Address = "F302, Nakshtra Heights, Vadodara"
-        });
-        var request = new StringContent(employee, Encoding.UTF8, "application/json");
+            OutboxMessageId = outboxMessage.Id,
+            Body = outboxMessage.Body,
+            RetryCount = outboxMessage.RetryCount,
+        };
+        var requestBody = JsonSerializer.Serialize(inboxMessage);
+        var request = new StringContent(requestBody, Encoding.UTF8, "application/json");
 
         var response = await httpClient.PostAsync(CreateInboxMessageEndpoint, request);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var data = await response.Content.ReadAsStringAsync();
-        }
-
-        return response.StatusCode.ToString();
+        return response;
     }
 }

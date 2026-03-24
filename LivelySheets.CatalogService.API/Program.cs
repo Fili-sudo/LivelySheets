@@ -29,7 +29,7 @@ builder.Services
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IRabbitMqFacade, RabbitMqFacade>();
 
-builder.Services.AddHttpClient<MatchupServiceClient>(httpClient =>
+builder.Services.AddHttpClient<IMatchupServiceClient, MatchupServiceClient>(httpClient =>
 {
     httpClient.BaseAddress = new Uri(config[Services.MatchupServiceConfiguration] ?? "");
 });
