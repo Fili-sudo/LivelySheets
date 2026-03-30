@@ -29,6 +29,17 @@ builder.Services
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IRabbitMqFacade, RabbitMqFacade>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: CorsPolicyNames.MatchupServiceCorsPolicy,
+                      policy =>
+                      {
+                          policy.WithOrigins(config[CorsOrigins.MatchupServiceCorsOriginsConfiguration] ?? "")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
+});
+
 builder.Services.AddHttpClient<IMatchupServiceClient, MatchupServiceClient>(httpClient =>
 {
     httpClient.BaseAddress = new Uri(config[Services.MatchupServiceConfiguration] ?? "");
