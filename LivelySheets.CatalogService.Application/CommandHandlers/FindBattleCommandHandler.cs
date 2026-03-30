@@ -3,14 +3,13 @@ using LivelySheets.CatalogService.Application.Dtos;
 using LivelySheets.CatalogService.Application.Interfaces;
 using LivelySheets.CatalogService.Domain.Entities.Messages;
 using MediatR;
-using System.Net.Http;
 using System.Text.Json;
 
 namespace LivelySheets.CatalogService.Application.CommandHandlers;
 
 public class FindBattleCommandHandler(
     IGenericRepository<OutboxMessage> outboxMessageRepository,
-    IMatchupServiceClient matchupServiceClient) : 
+    IMatchupServiceClient matchupServiceClient) :
     IRequestHandler<FindBattleCommand, Guid>
 {
     public async Task<Guid> Handle(FindBattleCommand request, CancellationToken cancellationToken)
@@ -27,13 +26,7 @@ public class FindBattleCommandHandler(
         //send request to MatchupService with outboxMessage content
         //receive created inbox message identifier from MatchupService
         var httpResponse = await matchupServiceClient.SendOutboxMessageAsync((OutboxMessageDto)outboxMessage);
-
-        //if service call fails, revert the outbox entity creation
-        if (!httpResponse.IsSuccessStatusCode)
-        {
-            await outboxMessageRepository.DeleteAsync(outboxMessage.Id, cancellationToken);
-            throw new HttpRequestException(httpResponse.ReasonPhrase);
-        }
+        httpResponse.EnsureSuccessStatusCode();
         var data = await httpResponse.Content.ReadAsStringAsync(cancellationToken);
         var inboxMessageGuid = JsonSerializer.Deserialize<Guid>(data);
 
