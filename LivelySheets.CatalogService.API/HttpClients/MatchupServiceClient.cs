@@ -10,7 +10,6 @@ public class MatchupServiceClient(HttpClient httpClient) : IMatchupServiceClient
 {
     private readonly string CreateInboxMessageEndpoint = "messages/create-message";
 
-    //TODO: Finish service method
     public async Task<HttpResponseMessage> SendOutboxMessageAsync(OutboxMessageDto outboxMessage)
     {
         var inboxMessage = new PostCreateInboxMessage
