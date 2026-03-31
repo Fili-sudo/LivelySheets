@@ -5,13 +5,19 @@ using MediatR;
 
 namespace LivelySheets.CatalogService.Application.CommandHandlers
 {
-    public class PurgeMessageCommandHandler(IGenericRepository<OutboxMessage> outboxMessageRepository) : 
+    public class PurgeMessageCommandHandler(
+        IGenericRepository<OutboxMessage> outboxMessageRepository,
+        IMatchupServiceClient matchupServiceClient) :
         IRequestHandler<PurgeMessageCommand>
     {
         public async Task Handle(PurgeMessageCommand request, CancellationToken cancellationToken)
         {
-            //send delete request to MatchupService to delete inbox message entry
-            //if successfull, delete outbox message as well
+            var outboxMessage = await outboxMessageRepository.GetByIdAsync(request.MessageId, cancellationToken);
+            if (outboxMessage != null && outboxMessage!.InboxMessageId.HasValue)
+            {
+                var httpResponse = await matchupServiceClient.DeleteInboxMessageAsync(outboxMessage.InboxMessageId.Value);
+                httpResponse.EnsureSuccessStatusCode();
+            }
 
             await outboxMessageRepository.DeleteAsync(request.MessageId, cancellationToken);
         }
