@@ -1,4 +1,5 @@
 ﻿using LivelySheets.CatalogService.Application.Commands;
+using LivelySheets.CatalogService.Application.Constants;
 using LivelySheets.CatalogService.Application.Dtos;
 using LivelySheets.CatalogService.Application.Interfaces;
 using LivelySheets.CatalogService.Domain.Entities.Messages;
@@ -9,7 +10,8 @@ namespace LivelySheets.CatalogService.Application.CommandHandlers;
 
 public class FindBattleCommandHandler(
     IGenericRepository<OutboxMessage> outboxMessageRepository,
-    IMatchupServiceClient matchupServiceClient) :
+    IMatchupServiceClient matchupServiceClient,
+    IRabbitMqFacade rabbitMqFacade) :
     IRequestHandler<FindBattleCommand, Guid>
 {
     public async Task<Guid> Handle(FindBattleCommand request, CancellationToken cancellationToken)
@@ -35,6 +37,7 @@ public class FindBattleCommandHandler(
         await outboxMessageRepository.SaveAsync(cancellationToken);
 
         //send message to RabbitMQ topic exchange
+        await rabbitMqFacade.PublishMessageAsync(TopicRoutingKey.FindBattleRoutingKey, JsonSerializer.Serialize(outboxMessage));
 
         return outboxMessage.Id;
     }
