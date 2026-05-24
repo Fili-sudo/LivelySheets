@@ -7,13 +7,14 @@ namespace LivelySheets.CatalogService.Infrastructure.Messaging;
 public class RabbitMqFacade : IRabbitMqFacade, IAsyncDisposable
 {
     private readonly ConnectionFactory _factory;
+    private const string _hostName = "rabbitmq";
 
     private IConnection? _connection;
     private IChannel? _channel;
 
     public RabbitMqFacade()
     {
-        _factory = new ConnectionFactory { HostName = "localhost" };
+        _factory = new ConnectionFactory { HostName = _hostName };
     }
 
     public async Task PublishMessageAsync(string routingKey, string message)
